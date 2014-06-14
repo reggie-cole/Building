@@ -17,10 +17,15 @@ public class BuildingModel extends AbstractContainer {
 	private String buildingName;
 	private LinkedList<FloorModel> floors;
 	
+	public BuildingModel(){
+		super(BuildingType.RESIDENTIAL,0.0,0.0);
+	}
+	
 	/**
 	 * 
 	 * @param name
 	 */
+	
 	public BuildingModel(String name,BuildingType buildingType,Double length,Double width){
 		super(buildingType,length,width);
 		buildingName = name;

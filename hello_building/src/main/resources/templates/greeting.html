@@ -1,10 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
+    <title>Buildings</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-    I did it at Last!!!
+   <form action="#" th:action="@{/building}" th:object="${buildingModel}" method="post">
+   	Building Name: <input type="text" th:field="*{buildingName}"/> <br />
+   	<input type="submit" value="enter" />
+   </form>
 </body>
 </html>
