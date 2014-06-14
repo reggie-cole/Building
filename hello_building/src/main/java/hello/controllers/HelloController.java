@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HelloController {
     
-    @RequestMapping(value="/", method=RequestMethod.GET)
-    public String building(Model model) {
-    	model.addAttribute("buildingModel", new BuildingModel("blank", BuildingType.COMMERCIAL, 0.0, 0.0) );
+    @RequestMapping("/")
+    public String building() {
+    	//model.addAttribute("buildingModel", new BuildingModel("blank", BuildingType.COMMERCIAL, 0.0, 0.0) );
         return "greeting";
     }
-    
-    @RequestMapping(value="/building", method=RequestMethod.POST)
-    public String buildingSubmit(@ModelAttribute BuildingModel building, Model model){
-    	model.addAttribute("buildingModel", building);
-    	return "greeting";
-    }
+//    
+//    @RequestMapping(value="/building", method=RequestMethod.POST)
+//    public String buildingSubmit(@ModelAttribute BuildingModel building, Model model){
+//    	model.addAttribute("buildingModel", building);
+//    	return "greeting";
+//    }
     
 }
