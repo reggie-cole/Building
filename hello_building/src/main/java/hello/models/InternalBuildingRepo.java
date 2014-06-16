@@ -16,13 +16,16 @@ public class InternalBuildingRepo implements BuildingRepoInterface {
 	
 	@Override
 	public Iterable<BuildingModel> findAll() {
-		// TODO Auto-generated method stub
 		return this.buildings.values();
 	}
 
 	@Override
 	public BuildingModel saveBuilding(BuildingModel building) {
-		building.setBuildingId(counter.addAndGet(1));
+		Long id = building.getBuildingId();
+		if (id == null) {
+			id = counter.incrementAndGet();
+			building.setBuildingId(id);
+		}
 		buildings.put(building.getBuildingId(), building);
 		return building;
 	}

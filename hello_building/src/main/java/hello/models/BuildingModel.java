@@ -94,14 +94,6 @@ public class BuildingModel extends AbstractContainer {
 		
 	}
 
-	public void printBuildInfo(){
-		System.out.println("Buiding name:"+buildingName);
-		//System.out.println("Buiding type:"+getTypeName());
-		System.out.println("Buiding num rooms:"+getNumRooms());
-		System.out.println("Buiding num floors:"+getNumFloors());
-		System.out.println("Buiding size:"+getSize());
-	}
-
 	public Long getBuildingId() {
 		return buildingId;
 	}
