@@ -12,26 +12,32 @@ import java.util.LinkedList;
  * @author reginald
  *
  */
+
 public class BuildingModel extends AbstractContainer {
 
 	private String buildingName;
-	private LinkedList<FloorModel> floors;
-	
-	public BuildingModel(){
-		super(BuildingType.RESIDENTIAL,0.0,0.0);
-	}
+	private LinkedList<FloorModel> floors = new LinkedList<FloorModel>();
+	private Long buildingId;	
+		
+//	
+//	public BuildingModel(){
+//		super(BuildingType.RESIDENTIAL,0.0,0.0);
+//		buildingName = "No NAME";
+//		floors = new LinkedList<FloorModel>();
+//		
+//	}
 	
 	/**
 	 * 
 	 * @param name
 	 */
-	
-	public BuildingModel(String name,BuildingType buildingType,Double length,Double width){
-		super(buildingType,length,width);
-		buildingName = name;
-		floors = new LinkedList<FloorModel>();
-		floors.add(new FloorModel(this));
-	}
+
+//	public BuildingModel(String name,BuildingType buildingType,Double length,Double width){
+//		super(buildingType,length,width);
+//		buildingName = name;
+//		floors = new LinkedList<FloorModel>();
+//		floors.add(new FloorModel(this));
+//	}
 
 	public void setBuildingType(BuildingType type){
 		super.type = type;
@@ -46,7 +52,7 @@ public class BuildingModel extends AbstractContainer {
 	}
 	
 	public int getNumRooms() {
-		int rooms = 0;
+		int rooms = 1;
 		for(FloorModel floor : floors){
 			rooms += floor.getNumRooms();
 		}
@@ -54,7 +60,7 @@ public class BuildingModel extends AbstractContainer {
 	}
 
 	public int getNumFloors() {
-		return floors.size();
+		return (floors.size() == 0 )? 1 :floors.size() ;
 	}
 	
 	/**
@@ -81,9 +87,17 @@ public class BuildingModel extends AbstractContainer {
 
 	public void printBuildInfo(){
 		System.out.println("Buiding name:"+buildingName);
-		System.out.println("Buiding type:"+getTypeName());
+		//System.out.println("Buiding type:"+getTypeName());
 		System.out.println("Buiding num rooms:"+getNumRooms());
 		System.out.println("Buiding num floors:"+getNumFloors());
 		System.out.println("Buiding size:"+getSize());
+	}
+
+	public Long getBuildingId() {
+		return buildingId;
+	}
+
+	public void setBuildingId(Long buildingId) {
+		this.buildingId = buildingId;
 	}
 }

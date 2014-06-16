@@ -1,23 +1,34 @@
 package hello;
 
 import hello.models.BuildingModel;
+import hello.models.InternalBuildingRepo;
 import hello.models.types.BuildingType;
-
+import hello.models.api.BuildingRepo;
 import java.util.Arrays;
 import java.util.Scanner;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.convert.converter.Converter;
+
 
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan
 public class Application {
     
+	@Bean
+	public BuildingRepo BuildingRepo() {
+		return new InternalBuildingRepo();
+	}
+	
     public static void main(String[] args) {
+    	
+    	
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
         
         System.out.println("Let's inspect the beans provided by Spring Boot:");
@@ -50,8 +61,8 @@ public class Application {
         case 3: type = BuildingType.INDUSTRIAL;
         break;
         }
-        BuildingModel building = new BuildingModel(name, type, length, width);
-        building.printBuildInfo();;
+//        BuildingModel building = new BuildingModel(name, type, length, width);
+//        building.printBuildInfo();;
         
     }
 

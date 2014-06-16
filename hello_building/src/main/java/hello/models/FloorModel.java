@@ -6,12 +6,15 @@ import java.util.LinkedList;
 
 public class FloorModel extends AbstractContainer {
 
-	private LinkedList<RoomType> rooms;
+	private LinkedList<RoomType>  rooms = new LinkedList<RoomType>();;
 	private static final RoomType FLOOR_ROOM_TYPE = RoomType.FLOOR_ROOM_AREA;
 	
 	public FloorModel(BuildingModel building){
-		super(FLOOR_ROOM_TYPE,building.getLength(),building.getWidth());
-		rooms = new LinkedList<RoomType>();
+		
+		
+		super.setContainerType(FLOOR_ROOM_TYPE);
+		super.setLength(building.getLength());
+		super.setWidth(building.getWidth());
 	}
 	public void addRoom(RoomType room){
 		rooms.add(room);

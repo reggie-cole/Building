@@ -1,5 +1,18 @@
-html {
-    head {
-        title('Title')
+layout 'mainLayout.tpl',content: contents {
+    form(id:'messageForm',action:'/' , method:'post')
+	{
+		label (for:'buildingName', 'Building Name:')
+		input (name:'buildingName', type:'text', class:buildingName ) 
+           
+		br()
+		label (for:'length', 'Building Length:')
+		input (name:'length', type:'number',class:length ) 
+		br()
+		label (for:'width', 'Building Width:')
+		input (name:'width', type:'number',class:width ) 
+		br()
+		div (class:'form-actions'){
+			input(type:'submit',value:'enter')
+		}	
     }
 }
