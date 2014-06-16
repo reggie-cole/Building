@@ -26,6 +26,13 @@ import org.springframework.core.convert.converter.Converter;
 @ComponentScan
 public class Application {
     
+	public static final String BUILDING_TABLE = "BUILDING_TABLE";
+	public static final String BUILDING_NAME="BUILDING_NAME";
+	public static final String BUILDING_ADDRESS="BUILDING_ADDRESS";
+	public static final String BUILDING_ID="BUILDING_ID";
+	public static final String BUILDING_FLOOR="BUILDING_FLOOR";
+	public static final String BUILDING_ROOM="BUILDING_ROOM";
+	
 	@Bean
 	public Converter<String, BuildingModel> messageConverter() {
 		return new Converter<String, BuildingModel>() {
@@ -54,9 +61,14 @@ public class Application {
     JdbcTemplate jdbcTemplate(DataSource dataSource) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         System.out.println("Creating tables");
-        jdbcTemplate.execute("drop table BUILDING_TABLE if exists");
-        jdbcTemplate.execute("create table BUILDING_TABLE(" +
-                "ID serial, BUILDING_NAME varchar(100) NOT NULL,BUILDING_ID INT )");
+        jdbcTemplate.execute("drop table "+ BUILDING_TABLE+" if exists");
+        jdbcTemplate.execute("create table "+ BUILDING_TABLE+"(" +
+                " ID serial, "+
+        		BUILDING_NAME+" varchar(100) NOT NULL, "+
+                BUILDING_ID +" INT, "+
+                BUILDING_ADDRESS+" varchar(100) ,"+
+                BUILDING_FLOOR+" varchar(100) ,"+
+                BUILDING_ROOM+" varchar(100) ) ");
         return jdbcTemplate;
     }
 	
@@ -74,8 +86,12 @@ public class Application {
     	BuildingModel model = new BuildingModel();
     	model.setBuildingName("MAxis Building");
     	model.setBuildingId(1l);
+    	model.setRooms(3);
+    	model.setBuildingAddress("muryberry lane");
+    	model.setFloorCount(3);
         bookingService.saveBuilding(model);
-       System.err.println("amount of buildings:"+ bookingService.findAllBuilding().size());
+        System.err.println("amount of buildings:"+ bookingService.findAllBuilding().size());
+       
 //        
 //        String name;
 //        Double length;
