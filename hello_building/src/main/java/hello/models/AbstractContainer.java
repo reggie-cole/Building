@@ -44,9 +44,10 @@ public class AbstractContainer {
 	public ContainerType getContainterType() {
 		return type.getContainterType();
 	}
-	public void setContainerType(ContainerInterface<?> ct){
+	public void setType(ContainerInterface<?> ct){
 		type = ct;
 	}
+	
 	public String getTypeName(){
 		return type.getTypeName();
 	}

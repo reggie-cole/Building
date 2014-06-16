@@ -5,16 +5,23 @@ layout 'mainLayout.tpl',content: contents{
 		  tr {
 			td 'ID'
 			td 'Name'
-			td 'Size'
+			td '# floors'
+			td '# rooms'
+			td 'Edit'
 		  }
 		}
 		tbody {
-			if (buildings.empty) { tr { td(colspan:'3', 'No Messages' ) } }
+			if (buildings.empty) { tr { td(colspan:'5', 'No Messages' ) } }
 				buildings.each { building ->
-				tr {
-				  td "${building.buildingId}"
+				tr(class:'clickableRow' , href:'/'){ 
+				  td "${building.buildingId}" 
 				  td "${building.buildingName}"
-				  td "${building.size}"
+				  td "${building.rooms}"
+				  td "${building.floorCount}"
+				  td { 	a(href:"/${building.buildingId}","${building.buildingId}") {
+					  yield 'edit'
+					} }
+					 
 				}
 			}
 		}

@@ -7,9 +7,9 @@ import java.util.concurrent.ConcurrentMap;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-import hello.models.api.BuildingRepo;
+import hello.models.api.BuildingRepoInterface;
 
-public class InternalBuildingRepo implements BuildingRepo {
+public class InternalBuildingRepo implements BuildingRepoInterface {
 
 	private static AtomicLong counter = new AtomicLong();
 	private final ConcurrentMap<Long, BuildingModel > buildings = new ConcurrentHashMap<Long, BuildingModel>();
@@ -31,6 +31,12 @@ public class InternalBuildingRepo implements BuildingRepo {
 	public BuildingModel getBuildingModel(Long id) {
 		
 		return buildings.get(id);
+	}
+
+	@Override
+	public void replaceBuilding(Long buildingId, BuildingModel building) {
+		buildings.replace(buildingId, building);
+		
 	}
 
 }

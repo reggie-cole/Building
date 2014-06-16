@@ -18,29 +18,37 @@ public class BuildingModel extends AbstractContainer {
 	private String buildingName;
 	private LinkedList<FloorModel> floors = new LinkedList<FloorModel>();
 	private Long buildingId;	
-		
-//	
-//	public BuildingModel(){
-//		super(BuildingType.RESIDENTIAL,0.0,0.0);
-//		buildingName = "No NAME";
-//		floors = new LinkedList<FloorModel>();
-//		
-//	}
+	private String buildingAddress;	
+	private int typeId;
+	private BuildingType type;
+	private int rooms = 1;
+	private int floorCount = 1;
 	
-	/**
-	 * 
-	 * @param name
-	 */
-
-//	public BuildingModel(String name,BuildingType buildingType,Double length,Double width){
-//		super(buildingType,length,width);
-//		buildingName = name;
-//		floors = new LinkedList<FloorModel>();
-//		floors.add(new FloorModel(this));
-//	}
-
-	public void setBuildingType(BuildingType type){
-		super.type = type;
+	public void setRooms(int rooms){
+		if(rooms <= 0){
+			this.rooms = 1;
+		}else{
+			this.rooms = rooms;
+		}
+	}
+	
+	public int getRooms(){
+		return rooms;
+	}
+	public int getFloorCount(){
+		return floorCount;
+	}
+	
+	public void setFloorCount(int floorCount){
+		if(floorCount <= 0){
+			this.floorCount = 1;
+		}else{
+			this.floorCount = floorCount;
+		}
+	}
+	
+	public String getType(){
+		return this.type.name();
 	}
 	
 	public String getBuildingName() {
@@ -52,7 +60,7 @@ public class BuildingModel extends AbstractContainer {
 	}
 	
 	public int getNumRooms() {
-		int rooms = 1;
+		
 		for(FloorModel floor : floors){
 			rooms += floor.getNumRooms();
 		}
@@ -60,7 +68,7 @@ public class BuildingModel extends AbstractContainer {
 	}
 
 	public int getNumFloors() {
-		return (floors.size() == 0 )? 1 :floors.size() ;
+		return (floors.size() == 0 )? floorCount :floors.size() ;
 	}
 	
 	/**
@@ -68,6 +76,7 @@ public class BuildingModel extends AbstractContainer {
 	 */
 	public void addFloor() {
 		floors.add(new FloorModel(this));
+		floorCount = floors.size();
 	}
 	
 	/**
@@ -99,5 +108,27 @@ public class BuildingModel extends AbstractContainer {
 
 	public void setBuildingId(Long buildingId) {
 		this.buildingId = buildingId;
+	}
+
+	public String getBuildingAddress() {
+		return buildingAddress;
+	}
+
+	public void setBuildingAddress(String buildingAddress) {
+		this.buildingAddress = buildingAddress;
+	}
+
+	public int getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
+		if(typeId == 1){
+			
+			this.type = BuildingType.COMMERCIAL;
+		}else{
+			this.type = BuildingType.RESIDENTIAL;
+		}
 	}
 }

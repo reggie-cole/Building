@@ -1,6 +1,10 @@
 layout 'mainLayout.tpl',content: contents {
     form(id:'messageForm',action:'/' , method:'post')
 	{
+
+		label (for:'buildingAddress' , 'building Address:')
+		input(name:'buildingAddress',type:'text', class:buildingAddress)
+		br()
 		label (for:'buildingName', 'Building Name:')
 		input (name:'buildingName', type:'text', class:buildingName ) 
            

@@ -12,7 +12,7 @@ public class FloorModel extends AbstractContainer {
 	public FloorModel(BuildingModel building){
 		
 		
-		super.setContainerType(FLOOR_ROOM_TYPE);
+		super.setType(FLOOR_ROOM_TYPE);
 		super.setLength(building.getLength());
 		super.setWidth(building.getWidth());
 	}
