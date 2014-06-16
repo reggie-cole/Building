@@ -1,6 +1,6 @@
 layout 'mainLayout.tpl',content: contents{
 	h1('List of Buildings')
-	table(class:'table table-bordered table-striped') {
+	table(class:'table table-bordered table-striped table-hover') {
 		thead {
 		  tr {
 			td 'ID'
@@ -8,6 +8,7 @@ layout 'mainLayout.tpl',content: contents{
 			td '# floors'
 			td '# rooms'
 			td 'Edit'
+			td 'Delete'
 		  }
 		}
 		tbody {
@@ -21,10 +22,14 @@ layout 'mainLayout.tpl',content: contents{
 				  td { 	a(href:"/${building.buildingId}","${building.buildingId}") {
 					  yield 'edit'
 					} }
+				  td { 	a(role:'button',href:"/delete/${building.buildingId}","${building.buildingId}") {
+					  	span(class:"glyphicon glyphicon-remove")
+					} }
 					 
 				}
 			}
 		}
 
 	  }
+		a(role:'button',href:'/save',class:"btn btn-info","Save Changes")
 }

@@ -15,10 +15,10 @@ import java.util.LinkedList;
 
 public class BuildingModel extends AbstractContainer {
 
-	private String buildingName;
+	private String buildingName ="";
 	private LinkedList<FloorModel> floors = new LinkedList<FloorModel>();
 	private Long buildingId;	
-	private String buildingAddress;	
+	private String buildingAddress="";	
 	private int typeId;
 	private BuildingType type;
 	private int rooms = 1;
@@ -122,5 +122,9 @@ public class BuildingModel extends AbstractContainer {
 		}else{
 			this.type = BuildingType.RESIDENTIAL;
 		}
+	}
+	
+	public void buildingPrintInfo(){
+		System.out.println("building name: "+this.buildingName+" id:"+this.buildingId);
 	}
 }

@@ -9,25 +9,35 @@ html{
 	{
 		
 		div(class:'container') {
-			div(class:'navbar') {
-			  div(class:'navbar-inner') {
-				ul(class:'nav') {
-				  li {
-					a(href:'/') {
-					  yield 'Building Creator'
-					}
+		comment('static nav bar')
+		
+			div(class:'navbar navbar-default',role:"navigation") {
+			  div(class:'container-fluid') {
+				  div( class:"navbar-header"){
+					  a(class:"navbar-brand", href:"/",'Building Machine')
 				  }
-				  li {
-					  a(href:'/list') {
-						  yield 'Building List'
+				div(class:'navbar-collapse collapse'){
+					ul(class:'nav navbar-nav') {
+						li {
+						  a(href:'/') {
+							yield 'Building Creator'
+						  }
+						}
+						li {
+							a(href:'/list') {
+								yield 'Building List'
+							}
+						}
 					  }
-				  }
 				}
+			
 			  }
 			}
-		h1('Building creator')
+		h1(){
+			small( 'Reggie Buildings')
+		}
 		br()
-		div { content() }
+		div(class:"container") { content() }
 		script(src:'//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js')
   }
   }

@@ -1,14 +1,21 @@
 package hello;
 
 import java.sql.SQLException;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 import javax.sql.DataSource;
 
-import hello.controllers.BuildingSaveService;
+import java.sql.DriverManager;
+import java.util.List;
+
+import hello.controllers.BuildingDataBaseService;
 import hello.models.BuildingModel;
 import hello.models.InternalBuildingRepo;
 import hello.models.api.BuildingRepoInterface;
-
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.SimpleDriverDataSource;
@@ -32,9 +39,16 @@ public class Application {
 	public static final String BUILDING_ID="BUILDING_ID";
 	public static final String BUILDING_FLOOR="BUILDING_FLOOR";
 	public static final String BUILDING_ROOM="BUILDING_ROOM";
-	
+	private static  Connection connection;
+	private final String USER ="sa";
+	private final String URL_STRING ="jdbc:h2:file:~/buildingdb";
+	private final String PASSWORD="";	
+	/**
+	 * map the String version of a long to the corresponding building that has that id;
+	 * @return
+	 */
 	@Bean
-	public Converter<String, BuildingModel> messageConverter() {
+	public Converter<String, BuildingModel> buildingConvertor() {
 		return new Converter<String, BuildingModel>() {
 			@Override
 			public BuildingModel convert(String id) {
@@ -42,82 +56,82 @@ public class Application {
 			}
 		};
 	}
+	
+	/**
+	 * DataBase connection
+	 * @return
+	 */
 	 @Bean
-	 BuildingSaveService saveService() {
-	        return new BuildingSaveService();
-	    }
+	 BuildingDataBaseService saveService() {
+	        return new BuildingDataBaseService();
+	 }
 
+	 /**
+	  * Building List bean
+	  * @return
+	  */
 	 @Bean
-	    DataSource dataSource() {
+	 public BuildingRepoInterface BuildingRepo() {
+		 return new InternalBuildingRepo();
+	 }
+		
+		
+	 /**
+	  * Configure the connection to the database
+	  * @return
+	  */
+	 @Bean
+	 DataSource dataSource() {
 	        return new SimpleDriverDataSource() {{
+	        	
 	            setDriverClass(org.h2.Driver.class);
-	            setUsername("sa");
-	            setUrl("jdbc:h2:mem");
-	            setPassword("");
+	            setUsername(USER);
+	            setUrl(URL_STRING);
+	            setPassword(PASSWORD);
+	            try{
+	            	
+	            }catch(Throwable error){
+	            	
+	            }
+	            
+	            
 	        }};
-	    }
+	 }
 	 
 	@Bean
     JdbcTemplate jdbcTemplate(DataSource dataSource) {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        System.out.println("Creating tables");
-        jdbcTemplate.execute("drop table "+ BUILDING_TABLE+" if exists");
-        jdbcTemplate.execute("create table "+ BUILDING_TABLE+"(" +
-                " ID serial, "+
-        		BUILDING_NAME+" varchar(100) NOT NULL, "+
-                BUILDING_ID +" INT, "+
-                BUILDING_ADDRESS+" varchar(100) ,"+
-                BUILDING_FLOOR+" varchar(100) ,"+
-                BUILDING_ROOM+" varchar(100) ) ");
+          // jdbcTemplate.execute("drop table "+ BUILDING_TABLE+" if exists");
+        	DatabaseMetaData md;
+			try {
+				connection = DriverManager.getConnection(URL_STRING, USER, PASSWORD);
+				md = connection.getMetaData();
+				ResultSet rs = md.getTables(null, null, BUILDING_TABLE, null);
+	             if (rs.next()) {
+	               System.out.println("Table exist dont create new: ");
+	               
+	             }else{
+	            	 System.out.println("Creating tables ");
+	            	 jdbcTemplate.execute("create table "+ BUILDING_TABLE+"(" +
+	                         " ID serial, "+
+	                 		 BUILDING_NAME+" varchar(100) NOT NULL, "+
+	                         BUILDING_ID +" INT, "+
+	                         BUILDING_ADDRESS+" varchar(100) ,"+
+	                         BUILDING_FLOOR+" varchar(100) ,"+
+	                         BUILDING_ROOM+" varchar(100) ) ");
+	             }
+	             
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
         return jdbcTemplate;
     }
 	
-	@Bean
-	public BuildingRepoInterface BuildingRepo() {
-		return new InternalBuildingRepo();
-	}
-	
+
+ 
     public static void main(String[] args) {
-    	
-    	 //
-    	ApplicationContext ctx = SpringApplication.run(Application.class, args);
-        
-    	BuildingSaveService bookingService = ctx.getBean(BuildingSaveService.class);
-    	BuildingModel model = new BuildingModel();
-    	model.setBuildingName("MAxis Building");
-    	model.setBuildingId(1l);
-    	model.setRooms(3);
-    	model.setBuildingAddress("muryberry lane");
-    	model.setFloorCount(3);
-        bookingService.saveBuilding(model);
-        System.err.println("amount of buildings:"+ bookingService.findAllBuilding().size());
-       
-//        
-//        String name;
-//        Double length;
-//        Double width;
-//        BuildingType type = null;
-//        Scanner input = new Scanner(System.in);
-//        System.out.println("Enter building name:");
-//        name = input.nextLine();
-//        System.out.println("Enter building length:");
-//        length = input.nextDouble();
-//        System.out.println("Enter building width:");
-//        width = input.nextDouble();
-//        System.out.println(" 1:Commerical \n 2: Residential \n 3: Industrial");
-//        System.out.println();
-//        int choice = input.nextInt();
-//        switch(choice){
-//        case 1: type = BuildingType.COMMERCIAL;
-//        break;
-//        case 2: type = BuildingType.RESIDENTIAL;
-//        break;
-//        case 3: type = BuildingType.INDUSTRIAL;
-//        break;
-//        }
-//        BuildingModel building = new BuildingModel(name, type, length, width);
-//        building.printBuildInfo();;
-        
+    	SpringApplication.run(Application.class, args);
     }
 
 }

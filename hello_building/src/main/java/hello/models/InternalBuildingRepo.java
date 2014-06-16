@@ -20,14 +20,32 @@ public class InternalBuildingRepo implements BuildingRepoInterface {
 	}
 
 	@Override
-	public BuildingModel saveBuilding(BuildingModel building) {
+	public BuildingModel addBuildingToList(BuildingModel building) {
 		Long id = building.getBuildingId();
 		if (id == null) {
-			id = counter.incrementAndGet();
+			id = findNextAvailableId();
 			building.setBuildingId(id);
-		}
+		}	
 		buildings.put(building.getBuildingId(), building);
 		return building;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	private Long findNextAvailableId() {
+		Long avaibleId = counter.get();
+		boolean foundAvailable = false;
+		while(!foundAvailable){
+			if(buildings.containsKey(avaibleId)){
+				avaibleId = counter.incrementAndGet();
+			}else{
+				foundAvailable = true;
+				break;
+			}
+		}
+		return avaibleId;
 	}
 
 	@Override
@@ -39,6 +57,12 @@ public class InternalBuildingRepo implements BuildingRepoInterface {
 	@Override
 	public void replaceBuilding(Long buildingId, BuildingModel building) {
 		buildings.replace(buildingId, building);
+		
+	}
+
+	@Override
+	public void removeBuilding(Long buildingId) {
+		buildings.remove(buildingId);
 		
 	}
 
