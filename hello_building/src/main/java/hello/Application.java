@@ -1,10 +1,20 @@
 package hello;
 
+import java.sql.SQLException;
+
+import javax.sql.DataSource;
+
+import hello.controllers.BuildingSaveService;
 import hello.models.BuildingModel;
 import hello.models.InternalBuildingRepo;
 import hello.models.api.BuildingRepoInterface;
+
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +35,30 @@ public class Application {
 			}
 		};
 	}
+	 @Bean
+	 BuildingSaveService saveService() {
+	        return new BuildingSaveService();
+	    }
+
+	 @Bean
+	    DataSource dataSource() {
+	        return new SimpleDriverDataSource() {{
+	            setDriverClass(org.h2.Driver.class);
+	            setUsername("sa");
+	            setUrl("jdbc:h2:mem");
+	            setPassword("");
+	        }};
+	    }
+	 
+	@Bean
+    JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        System.out.println("Creating tables");
+        jdbcTemplate.execute("drop table BUILDING_TABLE if exists");
+        jdbcTemplate.execute("create table BUILDING_TABLE(" +
+                "ID serial, BUILDING_NAME varchar(100) NOT NULL,BUILDING_ID INT )");
+        return jdbcTemplate;
+    }
 	
 	@Bean
 	public BuildingRepoInterface BuildingRepo() {
@@ -33,9 +67,15 @@ public class Application {
 	
     public static void main(String[] args) {
     	
-    	 //ApplicationContext ctx =
-        SpringApplication.run(Application.class, args);
+    	 //
+    	ApplicationContext ctx = SpringApplication.run(Application.class, args);
         
+    	BuildingSaveService bookingService = ctx.getBean(BuildingSaveService.class);
+    	BuildingModel model = new BuildingModel();
+    	model.setBuildingName("MAxis Building");
+    	model.setBuildingId(1l);
+        bookingService.saveBuilding(model);
+       System.err.println("amount of buildings:"+ bookingService.findAllBuilding().size());
 //        
 //        String name;
 //        Double length;
