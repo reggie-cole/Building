@@ -33,7 +33,7 @@ public class BuildingModel extends AbstractContainer {
 	}
 	
 	public int getRooms(){
-		return rooms;
+		return getNumRooms();
 	}
 	public int getFloorCount(){
 		return floorCount;
@@ -43,6 +43,10 @@ public class BuildingModel extends AbstractContainer {
 		if(floorCount <= 0){
 			this.floorCount = 1;
 		}else{
+			floors = new LinkedList<FloorModel>();
+			for(int i=0;i < floorCount;i++){
+				floors.add(new FloorModel(this));
+			}
 			this.floorCount = floorCount;
 		}
 	}
@@ -61,9 +65,12 @@ public class BuildingModel extends AbstractContainer {
 	
 	public int getNumRooms() {
 		
-		for(FloorModel floor : floors){
-			rooms += floor.getNumRooms();
+		if(floors.size() > rooms){
+			for(FloorModel floor : floors){
+				rooms += floor.getNumRooms();
+			}	
 		}
+		
 		return rooms;
 	}
 

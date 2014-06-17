@@ -10,12 +10,12 @@ public class FloorModel extends AbstractContainer {
 	private static final RoomType FLOOR_ROOM_TYPE = RoomType.FLOOR_ROOM_AREA;
 	
 	public FloorModel(BuildingModel building){
-		
-		
 		super.setType(FLOOR_ROOM_TYPE);
 		super.setLength(building.getLength());
 		super.setWidth(building.getWidth());
 	}
+	
+	
 	public void addRoom(RoomType room){
 		rooms.add(room);
 	}

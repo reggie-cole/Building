@@ -17,8 +17,8 @@ layout 'mainLayout.tpl',content: contents{
 				tr(class:'clickableRow' , href:'/'){ 
 				  td "${building.buildingId}" 
 				  td "${building.buildingName}"
-				  td "${building.rooms}"
 				  td "${building.floorCount}"
+				  td "${building.rooms}"
 				  td { 	a(href:"/${building.buildingId}","${building.buildingId}") {
 					  yield 'edit'
 					} }
